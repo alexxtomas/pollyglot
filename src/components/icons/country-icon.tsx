@@ -184,5 +184,5 @@ type Props = {
 };
 
 export function CountryIcon({ countryName }: Props) {
-  return COUNTRIES_SVGS[countryName];
+  return COUNTRIES_SVGS[countryName]?.() ?? COUNTRIES_SVGS.USA();
 }

@@ -2,6 +2,8 @@
 
 import { SendIcon } from '@/components/icons/send-icon';
 import { useRef } from 'react';
+import { CountryIcon } from './icons/country-icon';
+import { ChevronDown } from 'lucide-react';
 
 export function UserInput() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -19,9 +21,15 @@ export function UserInput() {
         ref={textareaRef}
         className="resize-none focus-visible:outline-none max-h-[300px]"
       />
-      <button className="w-fit h-fit self-end">
-        <SendIcon />
-      </button>
+      <div className="w-full flex justify-between">
+        <button title="Language to translate">
+          <CountryIcon countryName="SPAIN" />
+          <ChevronDown />
+        </button>
+        <button className="w-fit h-fit">
+          <SendIcon />
+        </button>
+      </div>
     </div>
   );
 }
