@@ -19,7 +19,7 @@ export function UserInput() {
       <textarea
         onChange={handleChange}
         ref={textareaRef}
-        className="resize-none focus-visible:outline-none max-h-[300px]"
+        className="resize-none focus-visible:outline-hidden max-h-[300px]"
       />
       <div className="w-full flex justify-between">
         <button title="Language to translate">
