@@ -1,6 +1,20 @@
-const COUNTRIES_SVGS = {
-  USA: () => (
-    <svg width="32" height="32" viewBox="0 0 32 32">
+type TCountrySvgProps = {
+  className?: string;
+};
+
+type TCountriesSvgs = {
+  [key: string]: React.FC<TCountrySvgProps>;
+};
+
+const COUNTRIES_SVGS: TCountriesSvgs = {
+  USA: ({ className }: TCountrySvgProps) => (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+    >
       <rect x="1" y="4" width="30" height="24" rx="4" ry="4" fill="#fff"></rect>
       <path
         d="M1.638,5.846H30.362c-.711-1.108-1.947-1.846-3.362-1.846H5c-1.414,0-2.65,.738-3.362,1.846Z"
@@ -105,8 +119,14 @@ const COUNTRIES_SVGS = {
       ></path>
     </svg>
   ),
-  SPAIN: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  SPAIN: ({ className }: TCountrySvgProps) => (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+    >
       <path fill="#f1c142" d="M1 10H31V22H1z"></path>
       <path d="M5,4H27c2.208,0,4,1.792,4,4v3H1v-3c0-2.208,1.792-4,4-4Z" fill="#a0251e"></path>
       <path
@@ -141,8 +161,14 @@ const COUNTRIES_SVGS = {
       ></path>
     </svg>
   ),
-  FRANCE: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  FRANCE: ({ className }: TCountrySvgProps) => (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+    >
       <path fill="#fff" d="M10 4H22V28H10z"></path>
       <path d="M5,4h6V28H5c-2.208,0-4-1.792-4-4V8c0-2.208,1.792-4,4-4Z" fill="#092050"></path>
       <path
@@ -161,9 +187,14 @@ const COUNTRIES_SVGS = {
       ></path>
     </svg>
   ),
-
-  JAPAN: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  JAPAN: ({ className }: TCountrySvgProps) => (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+    >
       <rect x="1" y="4" width="30" height="24" rx="4" ry="4" fill="#fff"></rect>
       <path
         d="M27,4H5c-2.209,0-4,1.791-4,4V24c0,2.209,1.791,4,4,4H27c2.209,0,4-1.791,4-4V8c0-2.209-1.791-4-4-4Zm3,20c0,1.654-1.346,3-3,3H5c-1.654,0-3-1.346-3-3V8c0-1.654,1.346-3,3-3H27c1.654,0,3,1.346,3,3V24Z"
@@ -179,10 +210,16 @@ const COUNTRIES_SVGS = {
   ),
 };
 
-type Props = {
-  countryName: keyof typeof COUNTRIES_SVGS;
+type TAvailableCountries = keyof typeof COUNTRIES_SVGS;
+
+export const AVAILABLE_COUNTRIES = Object.keys(COUNTRIES_SVGS) as TAvailableCountries[];
+
+type TCountryIconProps = {
+  countryName: TAvailableCountries;
+  className?: string;
 };
 
-export function CountryIcon({ countryName }: Props) {
-  return COUNTRIES_SVGS[countryName]?.() ?? COUNTRIES_SVGS.USA();
-}
+export const CountryIcon = ({ countryName, className }: TCountryIconProps) => {
+  const Component = COUNTRIES_SVGS[countryName] ?? COUNTRIES_SVGS.USA;
+  return <Component className={className} />;
+};
