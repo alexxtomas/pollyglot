@@ -15,14 +15,14 @@ export function UserInput() {
     }
   };
   return (
-    <div className="flex flex-col gap-3 border border-black px-3 py-4 rounded-lg">
+    <div className="flex flex-col gap-3 border border-black px-2 py-4 rounded-lg">
       <textarea
         onChange={handleChange}
         ref={textareaRef}
         className="resize-none focus-visible:outline-hidden max-h-[300px]"
       />
       <div className="w-full flex justify-between">
-        <button className="flex items-center px-2 py-1 rounded-lg bg-gray-200 ">
+        <button title="Language to translate">
           <CountryIcon countryName="SPAIN" />
           <ChevronDown />
         </button>
