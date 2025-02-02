@@ -4,6 +4,8 @@ import { SendIcon } from '@/components/icons/send-icon';
 import { useRef, useState } from 'react';
 import { AVAILABLE_COUNTRIES, CountryIcon } from './icons/country-icon';
 import { ChevronDown } from 'lucide-react';
+import { useChat } from 'ai/react';
+import { ChatRequestOptions } from 'ai';
 
 const LANGUAGE_MAP = {
   SPAIN: 'Spanish',
@@ -19,7 +21,22 @@ const COUNTRY_MAP = {
   Japanese: 'JAPAN',
 };
 
-export function UserInput() {
+type Props = {
+  onSubmit: (
+    event?: {
+      preventDefault?: () => void;
+    },
+    chatRequestOptions?: ChatRequestOptions,
+  ) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => void;
+  value: string;
+  isLoading: boolean;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+};
+
+export function UserInput({ onSubmit, onChange, value, isLoading, containerRef }: Props) {
   const [selectedLanguage, setSelectedLanguage] = useState<string>('Spanish');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -28,6 +45,7 @@ export function UserInput() {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }
+    onChange(e);
   };
 
   const handleLanguageClick = (language: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,15 +53,26 @@ export function UserInput() {
   };
 
   return (
-    <div className="flex flex-col gap-3 border border-black px-2 py-4 rounded-lg">
+    <form
+      onSubmit={(e) => {
+        onSubmit(e, {
+          body: {
+            language: selectedLanguage,
+          },
+        });
+      }}
+      className="flex flex-col gap-3 bg-zinc-100 px-4 py-4 rounded-xl"
+    >
       <textarea
         onChange={handleChange}
         ref={textareaRef}
-        className="resize-none focus-visible:outline-none max-h-[300px]"
+        value={value}
+        disabled={isLoading}
+        className="resize-none focus-visible:outline-none max-h-[300px] bg-zinc-100"
       />
       <div className="w-full flex justify-between items-center">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn m-1">
+        <div className="dropdown dropdown-top">
+          <div tabIndex={0} role="button" className="btn m-1 border border-zinc-300">
             <CountryIcon countryName={COUNTRY_MAP[selectedLanguage as keyof typeof COUNTRY_MAP]} />
             <ChevronDown className="w-4 h-4" />
           </div>
@@ -56,6 +85,7 @@ export function UserInput() {
               return (
                 <li key={country} className="flex items-center gap-2 not-prose">
                   <button
+                    type="button"
                     onClick={handleLanguageClick(language)}
                     className="flex items-center opacity-100 w-full justify-center"
                   >
@@ -67,10 +97,10 @@ export function UserInput() {
             })}
           </ul>
         </div>
-        <button className="w-fit h-fit transition-transform hover:scale-110">
+        <button type="submit" className="w-fit h-fit transition-transform hover:scale-110">
           <SendIcon />
         </button>
       </div>
-    </div>
+    </form>
   );
 }
